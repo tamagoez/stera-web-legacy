@@ -1,27 +1,51 @@
 {
-  "name": "nextjs",
-  "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "type-check": "tsc"
   },
   "dependencies": {
-    "react": "^18",
-    "react-dom": "^18",
-    "next": "14.1.0"
+    "@emotion/react": "^11.11.3",
+    "@emotion/server": "^11.11.0",
+    "@mantine/carousel": "^7.5.3",
+    "@mantine/core": "^7.5.3",
+    "@mantine/dates": "^7.5.3",
+    "@mantine/dropzone": "^7.5.3",
+    "@mantine/form": "^7.5.3",
+    "@mantine/hooks": "^7.5.3",
+    "@mantine/modals": "^7.5.3",
+    "@mantine/next": "^6.0.21",
+    "@mantine/notifications": "^7.5.3",
+    "@mantine/nprogress": "^7.5.3",
+    "@mantine/prism": "^6.0.21",
+    "@mantine/spotlight": "^7.5.3",
+    "@mantine/tiptap": "^7.5.3",
+    "@supabase/auth-helpers-nextjs": "^0.9.0",
+    "@supabase/auth-helpers-react": "^0.4.2",
+    "@supabase/supabase-js": "^2.39.7",
+    "@tabler/icons-react": "^2.47.0",
+    "@tiptap/extension-link": "^2.2.4",
+    "@tiptap/react": "^2.2.4",
+    "@tiptap/starter-kit": "^2.2.4",
+    "axios": "^1.6.7",
+    "cookies-next": "^4.1.1",
+    "dayjs": "^1.11.10",
+    "embla-carousel-react": "^8.0.0",
+    "encoding": "^0.1.13",
+    "framer-motion": "^11.0.6",
+    "next": "^14.1.0",
+    "next-pwa": "^5.6.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "swr": "^2.2.5"
   },
   "devDependencies": {
-    "typescript": "^5",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "autoprefixer": "^10.0.1",
-    "postcss": "^8",
-    "tailwindcss": "^3.3.0",
-    "eslint": "^8",
-    "eslint-config-next": "14.1.0"
+    "@types/node": "^20.11.20",
+    "@types/react": "^18.2.58",
+    "@types/react-dom": "^18.2.19",
+    "autoprefixer": "^10.4.17",
+    "typescript": "^5.3.3"
   }
 }

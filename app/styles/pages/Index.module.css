@@ -1,0 +1,15 @@
+.title_thumb {
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, #d4e8fc, #e2d5fe);
+    position: relative;
+  }
+  
+  .title_text p {
+    background: linear-gradient(270deg, #7184ff, #b3beff);
+    background: -webkit-linear-gradient(280deg, #7184ff, #b3beff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: absolute;
+  }

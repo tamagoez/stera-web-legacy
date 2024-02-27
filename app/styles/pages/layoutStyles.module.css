@@ -1,0 +1,47 @@
+.load_screen {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 10000;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    inset: 0;
+    margin: auto;
+    text-align: center;
+    background-color: whitesmoke;
+    /* テキスト要素の中央揃え */
+}
+
+.svg_wrap svg {
+    max-width: 100%;
+}
+
+.svg_wrap svg .line_n {
+    stroke-dasharray: 2150px;
+    stroke: #7184ff;
+    stroke-width: 5px;
+    /* fill: #7184ff; */
+    fill: none;
+    animation: svgAnime 2.2s ease-in-out infinite;
+    stroke-dashoffset: 2150px;
+}
+
+@keyframes svgAnime {
+    0% {
+        stroke-dashoffset: 2150px;
+        fill: transparent;
+    }
+
+    50% {
+        stroke-dashoffset: 0px;
+        fill: transparent;
+    }
+
+    100% {
+        stroke-dashoffset: -2150px;
+        /* stroke: transparent; */
+        /* fill: #7184ff; */
+    }
+}
