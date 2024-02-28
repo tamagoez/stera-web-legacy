@@ -16,6 +16,12 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
+import {
+  signInWithEmailAndPassword,
+  signUpWithEmailAndPassword,
+} from "@/utils/db/auth";
+import { CLIENT_URL } from "@/utils/globalvar";
+import { useRouter } from "next/navigation";
 
 export default function Auth() {
   // const router = useRouter();
@@ -50,7 +56,7 @@ export default function Auth() {
 
   useEffect(() => {
     const cookieAuthmode = getCookie("authmode") ?? "login";
-    console.log(cookieAuthmode)
+    console.log(cookieAuthmode);
     setAuthmode(cookieAuthmode);
     window.history.replaceState(null, "", `/${cookieAuthmode}`);
     setTimeout(() => {
@@ -67,14 +73,18 @@ export default function Auth() {
             <br />
             {authmode}
           </Text>
-          <Divider label="Continue with Steraneml account" labelPosition="center" my="lg" />
+          <Divider
+            label="Continue with Steraneml account"
+            labelPosition="center"
+            my="lg"
+          />
 
           <form onSubmit={form.onSubmit(() => {})}>
             <Stack>
               {authmode === "login" ? (
                 <LoginComponent form={form} />
               ) : (
-                <SignupComponent />
+                <SignupComponent form={form} />
               )}
             </Stack>
             <Group mt="xl">
@@ -120,6 +130,19 @@ function LoginComponent({
     }
   >;
 }) {
+  async function handleLogin() {
+    const router = useRouter();
+    try {
+      const data = await signInWithEmailAndPassword(
+        form.values.email,
+        form.values.password
+      );
+      router.replace("/callback");
+    } catch (error: any) {
+      console.error(error);
+      alert("エラーが発生したようです");
+    }
+  }
   return (
     <>
       <TextInput
@@ -149,17 +172,50 @@ function LoginComponent({
         radius="md"
       />
 
-      <Button type="submit" radius="xl">
+      <Button type="submit" radius="xl" onClick={() => handleLogin()}>
         Login
       </Button>
     </>
   );
 }
 
-function SignupComponent() {
-  // URL送信
+function SignupComponent({
+  form,
+}: {
+  form: UseFormReturnType<
+    {
+      email: string;
+      name: string;
+      password: string;
+      terms: boolean;
+    },
+    (values: {
+      email: string;
+      name: string;
+      password: string;
+      terms: boolean;
+    }) => {
+      email: string;
+      name: string;
+      password: string;
+      terms: boolean;
+    }
+  >;
+}) {
   async function handleSignup() {
-    new Error();
+    try {
+      const data = await signUpWithEmailAndPassword(
+        form.values.email,
+        form.values.password,
+        `${CLIENT_URL}/callback`
+      );
+      alert(
+        "入力されたメールアドレスに、認証URLを送信しました。\nメールが届かない場合は、メールアドレスのミス、迷惑メールフォルダを確認してください。"
+      );
+    } catch (error: any) {
+      console.error(error);
+      alert("エラーが発生したようです");
+    }
   }
   return (
     <>
@@ -170,6 +226,32 @@ function SignupComponent() {
         <br />
         作成したアカウントは、Stera・neml共通サーバー以外で利用することはできません。
       </Text>
+      <TextInput
+        required
+        label="Email"
+        placeholder="your@email.addr"
+        value={form.values.email}
+        onChange={(event) =>
+          form.setFieldValue("email", event.currentTarget.value)
+        }
+        error={form.errors.email && "Invalid email"}
+        radius="md"
+      />
+
+      <PasswordInput
+        required
+        label="Password"
+        placeholder="Your password"
+        value={form.values.password}
+        onChange={(event) =>
+          form.setFieldValue("password", event.currentTarget.value)
+        }
+        error={
+          form.errors.password &&
+          "Password should include at least 6 characters"
+        }
+        radius="md"
+      />
       <Button
         variant="gradient"
         gradient={{ from: "indigo", to: "cyan" }}
