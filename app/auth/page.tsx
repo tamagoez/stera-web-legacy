@@ -22,6 +22,7 @@ import {
 } from "@/utils/db/auth";
 import { CLIENT_URL } from "@/utils/globalvar";
 import { useRouter } from "next/navigation";
+import { login, signup } from "./actions";
 
 export default function Auth() {
   // const router = useRouter();
@@ -133,11 +134,8 @@ function LoginComponent({
   async function handleLogin() {
     const router = useRouter();
     try {
-      const data = await signInWithEmailAndPassword(
-        form.values.email,
-        form.values.password
-      );
-      router.replace("/callback");
+      await login(form.values.email, form.values.password)
+      // router.replace("/callback");
     } catch (error: any) {
       console.error(error);
       alert("エラーが発生したようです");
@@ -207,17 +205,13 @@ function SignupComponent({
 }) {
   async function handleSignup() {
     try {
-      const data = await signUpWithEmailAndPassword(
-        form.values.email,
-        form.values.password,
-        `${CLIENT_URL}/callback`
-      );
+      await signup(form.values.email, form.values.password)
       alert(
         "入力されたメールアドレスに、認証URLを送信しました。\nメールが届かない場合は、メールアドレスのミス、迷惑メールフォルダを確認してください。"
       );
     } catch (error: any) {
       console.error(error);
-      alert("エラーが発生したようです");
+      alert(error);
     }
   }
   return (

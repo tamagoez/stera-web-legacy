@@ -1,4 +1,7 @@
+"use server"
+
 // auth.ts
+//
 // 認証関連の処理を実行するユーティリティクラスです
 // ここでは、SupabaseのTypescriptパッケージを利用して書いています
 // ご利用のDBサービスに合わせて適宜、スクリプトを変更してください
@@ -6,8 +9,8 @@
 // This is a utility class for auth.
 // This functions are written for Supabase Typescript Package.
 // Please edit scripts for your DB service.
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
-import { supabase } from "../globalfunc";
+
+import { createSupabaseServerClient } from "../globalfunc";
 
 // signInWithEmailAndPassword(email, password)
 // メールアドレスとパスワードを利用して、"ログイン"します
@@ -17,6 +20,7 @@ export async function signInWithEmailAndPassword(
   password: string
 ) {
   try {
+    const supabase = createSupabaseServerClient()
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -36,6 +40,7 @@ export async function signInWithPhoneAndPassword(
   password: string
 ) {
   try {
+    const supabase = createSupabaseServerClient()
     const { data, error } = await supabase.auth.signInWithPassword({
       phone,
       password,
@@ -54,9 +59,10 @@ export async function signInWithPhoneAndPassword(
 export async function signUpWithEmailAndPassword(
   email: string,
   password: string,
-  emailRedirectTo: string,
+  emailRedirectTo: string
 ) {
   try {
+    const supabase = createSupabaseServerClient()
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -64,7 +70,7 @@ export async function signUpWithEmailAndPassword(
         emailRedirectTo,
       },
     });
-    if (error) throw error
+    if (error) throw error;
     return data;
   } catch (error: any) {
     return new Error(error);
@@ -72,12 +78,19 @@ export async function signUpWithEmailAndPassword(
 }
 
 export async function signInUpCallback(cookies: any, req: any) {
-  const supabase = createRouteHandlerClient({ cookies });
-  const { searchParams } = new URL(req.url);
-  const code = searchParams.get("code");
-  if (code) {
-    const cookieStore = cookies()
-    const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
-    await supabase.auth.exchangeCodeForSession(code)
-  }
+  // try {
+  //   const supabase = createRouteHandlerClient({ cookies });
+  //   const { searchParams } = new URL(req.url);
+  //   const code = searchParams.get("code");
+  //   if (code) {
+  //     const cookieStore = cookies();
+  //     const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
+  //     await supabase.auth.exchangeCodeForSession(code);
+  //   } else {
+  //     new Error();
+  //   }
+  // } catch (error: any) {
+  //   return new Error(error);
+  // }
+  return new Error();
 }
