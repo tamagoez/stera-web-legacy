@@ -145,6 +145,9 @@ function LoginComponent({
   }
   return (
     <>
+    <Text>
+        Steranemlアカウントでログインしてください
+      </Text>
       <TextInput
         required
         label="Email"

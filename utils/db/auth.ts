@@ -6,6 +6,7 @@
 // This is a utility class for auth.
 // This functions are written for Supabase Typescript Package.
 // Please edit scripts for your DB service.
+import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import { supabase } from "../globalfunc";
 
 // signInWithEmailAndPassword(email, password)
@@ -67,5 +68,16 @@ export async function signUpWithEmailAndPassword(
     return data;
   } catch (error: any) {
     return new Error(error);
+  }
+}
+
+export async function signInUpCallback(cookies: any, req: any) {
+  const supabase = createRouteHandlerClient({ cookies });
+  const { searchParams } = new URL(req.url);
+  const code = searchParams.get("code");
+  if (code) {
+    const cookieStore = cookies()
+    const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
+    await supabase.auth.exchangeCodeForSession(code)
   }
 }
