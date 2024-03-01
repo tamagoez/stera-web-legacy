@@ -8,10 +8,11 @@
 // This functions are written for Supabase Typescript Package.
 // Please edit scripts for your DB service.
 
-import { supabase } from "../globalfunc";
+import { createSupabaseServerClient } from "../globalfunc";
 
 export async function isUserInitFinished() {
   try {
+    const supabase = createSupabaseServerClient()
     const {
       data: { user }, error,
     } = await supabase.auth.getUser();
